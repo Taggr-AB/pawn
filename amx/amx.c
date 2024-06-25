@@ -1339,12 +1339,12 @@ int AMXAPI amx_Init(AMX *amx,void *program)
         char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
         int ret=proc_pidpath(getpid(), pathbuf, sizeof(pathbuf));
         if (ret>0) {
-          char ptr=strrchr(pathbuf,'/');
+          char *ptr=strrchr(pathbuf,'/');
           assert(ptr!=NULL);
           *ptr='\0';
           asprintf(&ptr,"%s/%s",pathbuf,libname);
           assert(ptr!=NULL);
-          hlib=dlopen(ptr,RTLD_NOW);
+          hlib=dlopen((const char*)ptr,RTLD_NOW);
           free(ptr);
         }
         if (hlib==NULL) {
